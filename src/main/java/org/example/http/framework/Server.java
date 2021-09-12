@@ -147,7 +147,7 @@ public class Server {
     }
   }
 
-  public synchronized void stop() throws IOException {
+  public void stop() throws IOException {
     synchronized(closeLock) {
       if (created) {
         serverSocket.close();
