@@ -131,6 +131,7 @@ public class Server {
     argumentResolvers.addAll(List.of(resolvers));
   }
 
+
   public void listen(int port) {
     try {
       serverSocket = new ServerSocket(port);
@@ -146,7 +147,7 @@ public class Server {
     }
   }
 
-  public void stop() throws IOException {
+  public synchronized void stop() throws IOException {
     synchronized(closeLock) {
       if (created) {
         serverSocket.close();
