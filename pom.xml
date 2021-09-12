@@ -8,6 +8,7 @@
     <artifactId>server</artifactId>
     <version>1.0</version>
 
+
     <properties>
         <maven.compiler.source>16</maven.compiler.source>
         <maven.compiler.target>16</maven.compiler.target>
@@ -34,11 +35,7 @@
             <artifactId>postgresql</artifactId>
             <version>42.2.23</version>
         </dependency>
-        <dependency>
-            <groupId>org.example</groupId>
-            <artifactId>server</artifactId>
-            <version>1.0</version>
-        </dependency>
+
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
@@ -52,18 +49,7 @@
             <version>${lombok.version}</version>
             <scope>provided</scope>
         </dependency>
-        <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter</artifactId>
-            <version>${junit-jupiter.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>RELEASE</version>
-            <scope>compile</scope>
-        </dependency>
+
     </dependencies>
 
     <build>
