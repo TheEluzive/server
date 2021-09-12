@@ -230,9 +230,7 @@ public class Server {
 
 
         Map<String, List<String>> form = parseBody(new String(body));
-        System.out.println(headers.get("Username"));
-        System.out.println(form.get("myKey1FromBody"));
-        System.out.println(query.get("123"));
+
         String pathWithoutParameters;
 
         try { // TODO:: do normal
