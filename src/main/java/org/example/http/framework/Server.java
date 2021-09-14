@@ -234,9 +234,11 @@ public class Server {
         Map<String, List<String>> query = new HashMap<>();
         Map<String, Part> multipart = new HashMap<>();
         query = parseParameters(uri);
+
         if (headers.getOrDefault("Content-Type", "").equals("application/x-www-form-urlencoded")){
           form = parseBody(new String(body));
         }
+
         if (headers.getOrDefault("Content-Type", "").contains("multipart/form-data")){
           multipart = parseMultiPart(body, headers.getOrDefault("Content-Type", ""));
         }
