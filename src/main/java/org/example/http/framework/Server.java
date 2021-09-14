@@ -153,9 +153,11 @@ public class Server {
       if (created) {
         serverSocket.close();
         service.shutdownNow();
+        stop = true;
+        created = false;
       }
     }
-    stop = true;
+
   }
 
   public void handle(final Socket socket) {
