@@ -3,6 +3,7 @@ package org.example.http.framework;
 import io.github.classgraph.ClassGraph;
 import lombok.extern.java.Log;
 import org.example.http.framework.annotation.RequestMapping;
+import org.example.http.framework.dto.Part;
 import org.example.http.framework.exception.*;
 import org.example.http.framework.guava.Bytes;
 import org.example.http.framework.resolver.argument.HandlerMethodArgumentResolver;
@@ -189,7 +190,7 @@ public class Server {
 
         final var uri = requestLineParts[1];
         // TODO: uri split ? -> URLDecoder
-        Map<String, List<String>> query = parseParameters(uri);
+
 
 
 
@@ -229,12 +230,22 @@ public class Server {
         final var body = in.readNBytes(contentLength);
 
 
-        Map<String, List<String>> form = parseBody(new String(body));
+        Map<String, List<String>> form = new HashMap<>();
+        Map<String, List<String>> query = new HashMap<>();
+        Map<String, Part> multipart = new HashMap<>();
+        query = parseParameters(uri);
+        if (headers.getOrDefault("Content-Type", "").equals("application/x-www-form-urlencoded")){
+          form = parseBody(new String(body));
+        }
+        if (headers.getOrDefault("Content-Type", "").contains("multipart/form-data")){
+          multipart = parseMultiPart(body, headers.getOrDefault("Content-Type", ""));
+        }
+
 
         String pathWithoutParameters;
 
         try { // TODO:: do normal
-           pathWithoutParameters = uri.split("\\?")[0];
+          pathWithoutParameters = uri.split("\\?")[0];
         }
         catch (NullPointerException e){
           pathWithoutParameters = uri;
@@ -248,6 +259,7 @@ public class Server {
             .query(query)
             .form(form)
             .body(body)
+            .multipart(multipart)
             .build();
 
         final var response = out;
@@ -313,7 +325,7 @@ public class Server {
    to Map <key, List<String> values>
    *
    * */
-  private static Map<String, List<String>> parseParameters(String url){
+  public static Map<String, List<String>> parseParameters(String url){
     try{
       Map<String, List<String>> map = parseBody(url.split("\\?")[1]);
       return map;
@@ -331,7 +343,7 @@ public class Server {
    to Map <key, List<String> values>
    *
    * */
-  private static Map<String, List<String>> parseBody(String url){
+  public static Map<String, List<String>> parseBody(String url){
 
     try {
       Map<String, List<String>> map = new HashMap<>();
@@ -352,4 +364,53 @@ public class Server {
 
     }
   }
+
+  public static Map<String, Part> parseMultiPart(byte[] body, String contentTypeStringBoundary){
+
+    Map<String, Part> multipart = new HashMap<>();
+    try {
+      String boundary = contentTypeStringBoundary.trim().split(";")[1].split("oundary=")[1] + "\r\n";
+      String[] parties = new String(body, boundary.length() + 2, body.length - boundary.length() * 2 - 4) // skip boundary + rn, to last boundary read - magic numbers(--\r\n\r\n = 7)
+              .split(boundary);
+      String[] headersBody;
+
+
+      for (String part : parties
+      ) {
+        String contentType = "field";
+        String name = "undefinedName" + System.currentTimeMillis();//TODO: iterator
+        headersBody = part.split("\r\n\r\n");
+
+        for (String lines : headersBody
+        ) {
+
+          if (lines.contains("Content-Type:")) {
+            contentType = lines.split("Content-Type:")[1];
+          }
+
+          if (lines.contains(" name=")) {
+            var pointStartName = lines.indexOf(" name=");
+            name = "";
+            var lineToChar = lines.toCharArray();
+            for (int i = 38; i < lineToChar.length; i++) {
+              if (lineToChar[i] != '"')
+                name = name + lineToChar[i];
+              else break;
+            }
+
+
+          }
+
+
+        }
+        if (name.isBlank()) name = "undefinedName" + System.currentTimeMillis();//TODO: iterator
+        multipart.put(name, new Part(contentType, headersBody[headersBody.length - 1].getBytes()));
+      }
+    }
+    catch (Exception e){
+      e.printStackTrace();
+    }
+    return multipart;
+  }
+
 }
