@@ -232,18 +232,19 @@ public class Server {
         final var body = in.readNBytes(contentLength);
 
 
-        Map<String, List<String>> form = new HashMap<>();
-        Map<String, List<String>> query = new HashMap<>();
-        Map<String, Part> multipart = new HashMap<>();
+        final Map<String, List<String>> form;
+        final Map<String, List<String>> query;
+        final Map<String, Part> multipart;
+
         query = parseParameters(uri);
 
         if (headers.getOrDefault("Content-Type", "").equals("application/x-www-form-urlencoded")){
           form = parseBody(new String(body));
-        }
+        } else form = new HashMap<>();
 
         if (headers.getOrDefault("Content-Type", "").contains("multipart/form-data")){
           multipart = parseMultiPart(body, headers.getOrDefault("Content-Type", ""));
-        }
+        } else multipart = new HashMap<>();
 
 
         String pathWithoutParameters;
