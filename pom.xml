@@ -6,7 +6,7 @@
 
     <groupId>org.example</groupId>
     <artifactId>server</artifactId>
-    <version>5.0</version>
+    <version>6.0</version>
 
 
     <properties>
