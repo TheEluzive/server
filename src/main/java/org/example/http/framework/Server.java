@@ -243,7 +243,7 @@ public class Server {
         } else form = new HashMap<>();
 
         if (headers.getOrDefault("Content-Type", "").contains("multipart/form-data")){
-          multipart = parseMultiPart(body, headers.getOrDefault("Content-Type", ""));
+          multipart = parseMultiPart(body, headers.get("Content-Type"));
         } else multipart = new HashMap<>();
 
 
