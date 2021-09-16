@@ -8,7 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class QueryParseTestWWWForm {
+public class QueryParseWWWFormTest {
     private static String URL = "/courses?paramNumber1=porometr";
     private static Map<String, List<String>> query = new HashMap<>();
 
@@ -20,7 +20,7 @@ public class QueryParseTestWWWForm {
     }
 
     @Test
-    public void queryParseTestWWWForm(){
+    public void queryParseWWWFormTest(){
         setMap(); // pre
         Map<String, List<String>> testForm = Server.parseParameters(URL);
 

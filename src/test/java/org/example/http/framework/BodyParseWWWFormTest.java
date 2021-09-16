@@ -12,7 +12,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class BodyParseTestWWWForm {
+public class BodyParseWWWFormTest {
     private static String body = "myKey1FromBody=fdsfsd&myKey2=asvcxfds";
     private static Map<String, List<String>> form = new HashMap<>();
 
