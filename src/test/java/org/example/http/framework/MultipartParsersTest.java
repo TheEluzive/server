@@ -4,7 +4,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 public class MultipartParsersTest {
-    final static String body =   "----------------------------443836377347050164488876\r\n" +
+    private static String body =   "----------------------------443836377347050164488876\r\n" +
             "Content-Disposition: form-data; name=\"textField\"; filename=\"textoviyFIle.txt\"\r\n" +
             "Content-Type: text/plain\r\n" +
             "\r\n" +
@@ -14,7 +14,7 @@ public class MultipartParsersTest {
             "\r\n" +
             "fdsfdsfds\r\n" +
             "----------------------------443836377347050164488876--\r\n";
-    final static String header = "multipart/form-data; boundary=----------------------------443836377347050164488876";
+    private static String header = "multipart/form-data; boundary=----------------------------443836377347050164488876";
 
 
 

@@ -13,8 +13,8 @@ import java.util.List;
 import java.util.Map;
 
 public class BodyParseTestWWWForm {
-    private final String body = "myKey1FromBody=fdsfsd&myKey2=asvcxfds";
-    private final static Map<String, List<String>> form = new HashMap<>();
+    private static String body = "myKey1FromBody=fdsfsd&myKey2=asvcxfds";
+    private static Map<String, List<String>> form = new HashMap<>();
 
 
     private final static void setMap(){

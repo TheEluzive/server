@@ -9,10 +9,10 @@ import java.util.List;
 import java.util.Map;
 
 public class QueryParseTestWWWForm {
-    private final static String URL = "/courses?paramNumber1=porometr";
-    private final static Map<String, List<String>> query = new HashMap<>();
+    private static String URL = "/courses?paramNumber1=porometr";
+    private static Map<String, List<String>> query = new HashMap<>();
 
-    private final static void setMap(){
+    private static void setMap(){
         ArrayList<String> arrayListFirst = new ArrayList<>();
         arrayListFirst.add("porometr");
         query.put("paramNumber1", arrayListFirst);
